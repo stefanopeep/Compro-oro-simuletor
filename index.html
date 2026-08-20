@@ -1,0 +1,3386 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Compro Oro - Simulatore</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:linear-gradient(135deg,#080d18,#17233a);
+ color:#fff;
+ font-family:Arial,sans-serif;
+}
+
+button,input,select{font:inherit}
+
+button{touch-action:manipulation}
+
+.hidden{display:none!important}
+
+/* START */
+
+#start{
+ min-height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ padding:20px;
+}
+
+.start-box{
+ width:min(520px,100%);
+ text-align:center;
+ background:#111a2a;
+ border:1px solid #35445d;
+ border-radius:25px;
+ padding:45px 25px;
+ box-shadow:0 20px 70px #0008;
+}
+
+.coin{font-size:70px}
+
+.start-box h1{
+ font-size:44px;
+ margin:10px 0;
+}
+
+.start-box h2{
+ color:#f6c453;
+}
+
+.start-button{
+ border:0;
+ border-radius:13px;
+ padding:16px 30px;
+ background:linear-gradient(135deg,#ffe08a,#d89413);
+ color:#3b2800;
+ font-weight:bold;
+ cursor:pointer;
+ margin-top:20px;
+}
+
+/* APP */
+
+.app{
+ max-width:1150px;
+ margin:auto;
+ padding:15px;
+}
+
+header{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-bottom:12px;
+}
+
+.logo{
+ width:50px;
+ height:50px;
+ border-radius:15px;
+ background:#f6c453;
+ color:#4b3200;
+ display:grid;
+ place-items:center;
+ font-weight:bold;
+ font-size:20px;
+}
+
+.brand{
+ display:flex;
+ gap:10px;
+ align-items:center;
+}
+
+.brand h1{
+ margin:0;
+ font-size:20px;
+}
+
+.sub{
+ color:#9ca3af;
+ font-size:13px;
+}
+
+.stats{
+ display:flex;
+ gap:7px;
+ flex-wrap:wrap;
+}
+
+.pill{
+ background:#101827;
+ border:1px solid #34435b;
+ padding:8px 11px;
+ border-radius:20px;
+}
+
+.gold{color:#f6c453}
+.green{color:#40d98a}
+.redtext{color:#fb7185}
+
+.layout{
+ display:grid;
+ grid-template-columns:205px 1fr;
+ gap:13px;
+}
+
+nav{
+ background:#0e1726;
+ border:1px solid #2b3850;
+ border-radius:17px;
+ padding:8px;
+ height:max-content;
+}
+
+nav button{
+ width:100%;
+ padding:11px;
+ margin:2px 0;
+ border:0;
+ border-radius:10px;
+ background:transparent;
+ color:#cbd5e1;
+ text-align:left;
+ cursor:pointer;
+}
+
+nav button:hover,
+nav button.active{
+ background:#24324a;
+ color:#fff;
+}
+
+.page{display:none}
+.page.active{display:block}
+
+.panel,
+.card{
+ background:#111a2a;
+ border:1px solid #2b3850;
+ border-radius:17px;
+ padding:15px;
+}
+
+.grid{
+ display:grid;
+ gap:10px;
+}
+
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+
+.big{
+ font-size:27px;
+ font-weight:bold;
+ margin:5px 0;
+}
+
+.customer{
+ display:flex;
+ align-items:center;
+ gap:12px;
+}
+
+.avatar{
+ width:75px;
+ height:75px;
+ border-radius:50%;
+ border:2px solid #ffffff22;
+ flex-shrink:0;
+}
+
+.customer-name{
+ font-size:20px;
+ font-weight:bold;
+}
+
+.mood{
+ font-size:35px;
+ margin-left:auto;
+}
+
+.actions{
+ display:flex;
+ gap:7px;
+ flex-wrap:wrap;
+ margin-top:12px;
+}
+
+.btn{
+ padding:10px 13px;
+ border-radius:10px;
+ border:1px solid #40516e;
+ background:#24324a;
+ color:#fff;
+ cursor:pointer;
+}
+
+.btn:hover{
+ filter:brightness(1.15);
+}
+
+.goldbtn{
+ background:linear-gradient(135deg,#f6c453,#d89413);
+ color:#3b2800;
+ font-weight:bold;
+}
+
+.redbtn{
+ background:#7f1d2d;
+}
+
+.btn:disabled{
+ opacity:.4;
+ cursor:not-allowed;
+}
+
+input,select{
+ width:100%;
+ padding:10px;
+ border-radius:9px;
+ border:1px solid #334155;
+ background:#09111e;
+ color:#fff;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+}
+
+th,td{
+ padding:9px;
+ border-bottom:1px solid #2b3850;
+ text-align:left;
+}
+
+.notice{
+ display:none;
+ background:#2c2109;
+ border:1px solid #80651c;
+ padding:12px;
+ border-radius:12px;
+ margin-bottom:12px;
+}
+
+.notice.show{display:block}
+
+.list{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+}
+
+.client-row{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ background:#0d1625;
+ padding:9px;
+ border-radius:11px;
+}
+
+.client-row img{
+ width:48px;
+ height:48px;
+ border-radius:50%;
+}
+
+.log{
+ background:#0b1422;
+ padding:9px;
+ border-radius:9px;
+ margin:7px 0;
+ font-size:13px;
+ color:#cbd5e1;
+}
+
+.bar{
+ height:9px;
+ background:#09111e;
+ border-radius:10px;
+ overflow:hidden;
+ margin-top:8px;
+}
+
+.bar span{
+ display:block;
+ height:100%;
+ background:#f6c453;
+ width:0;
+ transition:.3s;
+}
+
+.shake{
+ animation:shake .4s;
+}
+
+.pop{
+ animation:pop .4s;
+}
+
+@keyframes shake{
+ 25%{transform:translateX(-8px)}
+ 75%{transform:translateX(8px)}
+}
+
+@keyframes pop{
+ 50%{transform:scale(1.08)}
+}
+
+.toast{
+ position:fixed;
+ left:50%;
+ bottom:20px;
+ transform:translate(-50%,30px);
+ opacity:0;
+ background:#111827;
+ border:1px solid #334155;
+ padding:12px 16px;
+ border-radius:10px;
+ transition:.2s;
+ z-index:100;
+ max-width:90%;
+ text-align:center;
+}
+
+.toast.show{
+ opacity:1;
+ transform:translate(-50%,0);
+}
+
+.offer-box{
+ margin-top:12px;
+ padding:12px;
+ background:#0b1422;
+ border-radius:12px;
+ border:1px solid #293850;
+}
+
+.offer-box input{
+ margin-top:7px;
+}
+
+.warning{
+ color:#fbbf24;
+}
+
+.success{
+ color:#4ade80;
+}
+
+.danger{
+ color:#fb7185;
+}
+
+@media(max-width:750px){
+
+ .layout{
+  grid-template-columns:1fr;
+ }
+
+ nav{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+ }
+
+ nav button{
+  text-align:center;
+  font-size:12px;
+ }
+
+ .g2,.g3,.list{
+  grid-template-columns:1fr;
+ }
+
+ .start-box h1{
+  font-size:36px;
+ }
+
+ .customer{
+  align-items:flex-start;
+ }
+
+ .mood{
+  margin-left:auto;
+ }
+
+ th,td{
+  font-size:13px;
+ }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     PAGINA INIZIALE
+========================= -->
+
+<div id="start">
+
+ <div class="start-box">
+
+  <div class="coin">🪙</div>
+
+  <h1>COMPRO ORO</h1>
+
+  <h2>SIMULATORE</h2>
+
+  <p>
+   Gestisci il negozio di Stefano,
+   tratta con i clienti, controlla l'oro
+   e fai crescere la tua attività.
+  </p>
+
+  <p>
+   Venditore: <b>Stefano</b>
+  </p>
+
+  <button
+   class="start-button"
+   onclick="iniziaPartita()">
+
+   ▶ INIZIA PARTITA
+
+  </button>
+
+ </div>
+
+</div>
+
+
+<!-- =========================
+     GIOCO
+========================= -->
+
+<div id="game" class="hidden">
+
+<div class="app">
+
+<header>
+
+ <div class="brand">
+
+  <div class="logo">Au</div>
+
+  <div>
+
+   <h1>Compro Oro - Simulatore</h1>
+
+   <div class="sub">
+    Venditore: <b>Stefano</b>
+   </div>
+
+  </div>
+
+ </div>
+
+ <div class="stats">
+
+  <div class="pill">
+   Giorno <b id="giorno">1</b>
+  </div>
+
+  <div class="pill">
+   Cassa <b id="cassa" class="gold">€10.000,00</b>
+  </div>
+
+  <div class="pill">
+   XP <b id="xp">0</b>
+  </div>
+
+  <div class="pill">
+   Reputazione <b id="reputazione">100</b>
+  </div>
+
+ </div>
+
+</header>
+
+
+<div id="pausa" class="notice">
+
+ 🔒 <b>PAUSA ACQUISTI</b><br>
+
+ Puoi vendere il tuo oro al negozio,
+ ma non puoi comprare oro dai clienti.
+
+ <br>
+
+ Tempo rimanente:
+ <b id="timer">02:00</b>
+
+</div>
+
+
+<div class="layout">
+
+<!-- MENU -->
+
+<nav>
+
+ <button
+  class="active"
+  onclick="apriPagina('negozio',this)">
+  🏠 Negozio
+ </button>
+
+ <button
+  onclick="apriPagina('oro',this)">
+  🥇 Oro
+ </button>
+
+ <button
+  onclick="apriPagina('clienti',this)">
+  👥 Clienti
+ </button>
+
+ <button
+  onclick="apriPagina('registro',this)">
+  📒 Registro
+ </button>
+
+ <button
+  onclick="apriPagina('migliora',this)">
+  ⭐ Migliora
+ </button>
+
+ <button
+  onclick="apriPagina('salvataggio',this)">
+  💾 Salvataggio
+ </button>
+
+</nav>
+
+
+<main>
+
+<!-- =========================
+     NEGOZIO
+========================= -->
+
+<section
+ id="negozio"
+ class="page active">
+
+<div class="panel">
+
+<div class="grid g2">
+
+ <div class="card">
+
+  <div class="sub">
+   Stato negozio
+  </div>
+
+  <div
+   id="stato"
+   class="big green">
+   APERTO
+  </div>
+
+  <div>
+   Acquisti:
+   <b id="transazioni">0/8</b>
+  </div>
+
+  <div class="bar">
+   <span id="barra"></span>
+  </div>
+
+ </div>
+
+
+ <div class="card">
+
+  <div class="sub">
+   Livello negozio
+  </div>
+
+  <div class="big">
+   ⭐ <span id="livello">1</span>
+  </div>
+
+  <div>
+   Limite cliente:
+   <b
+    id="limite"
+    class="gold">
+    20 g
+   </b>
+  </div>
+
+ </div>
+
+</div>
+
+<br>
+
+<div id="cliente" class="card"></div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     ORO
+========================= -->
+
+<section
+ id="oro"
+ class="page">
+
+<div class="panel">
+
+<h2>🥇 Oro e quotazioni</h2>
+
+<div class="card">
+
+ <div class="sub">
+  Oro presente nel negozio
+ </div>
+
+ <div
+  class="big gold"
+  id="totaleOro">
+  0,00 g
+ </div>
+
+ <div id="magazzino"></div>
+
+</div>
+
+
+<h3>
+ Quotazioni del giorno
+</h3>
+
+<table>
+
+<thead>
+
+<tr>
+ <th>Caratura</th>
+ <th>Purezza</th>
+ <th>Valore €/g</th>
+</tr>
+
+</thead>
+
+<tbody id="tabellaPrezzi"></tbody>
+
+</table>
+
+
+<h3>
+ Vendi il tuo oro al negozio
+</h3>
+
+<p class="sub">
+ Puoi vendere il tuo oro anche durante
+ la pausa acquisti.
+</p>
+
+<div class="grid g3">
+
+ <select id="caraturaVendita"></select>
+
+ <input
+  id="grammiVendita"
+  type="number"
+  min="0.01"
+  step="0.01"
+  inputmode="decimal"
+  placeholder="Grammi">
+
+ <button
+  class="btn goldbtn"
+  onclick="vendiIlMioOro()">
+
+  💰 Vendi oro
+
+ </button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CLIENTI
+========================= -->
+
+<section
+ id="clienti"
+ class="page">
+
+<div class="panel">
+
+<h2>👥 Clienti</h2>
+
+<p class="sub">
+ I clienti conosciuti possono tornare,
+ ma ogni giorno possono arrivare anche
+ persone casuali.
+</p>
+
+<div
+ id="listaClienti"
+ class="list"></div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     REGISTRO
+========================= -->
+
+<section
+ id="registro"
+ class="page">
+
+<div class="panel">
+
+<h2>📒 Registro attività</h2>
+
+<div id="registroEventi"></div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     MIGLIORA
+========================= -->
+
+<section
+ id="migliora"
+ class="page">
+
+<div class="panel">
+
+<h2>⭐ Migliora il negozio</h2>
+
+<div class="card">
+
+<div class="sub">
+ Livello attuale
+</div>
+
+<div class="big">
+ ⭐ <span id="livello2">1</span>
+</div>
+
+<div class="sub">
+ Limite massimo oro per cliente
+</div>
+
+<div class="big gold">
+ <span id="limite2">20</span> g
+</div>
+
+<br>
+
+<div class="sub">
+ Limiti:
+</div>
+
+<p class="sub">
+
+ Livello 1 → 20 g<br>
+ Livello 2 → 40 g<br>
+ Livello 3 → 80 g<br>
+ Livello 4 → 140 g<br>
+ Livello 5 → 200 g<br>
+ Livello 6 → 300 g<br>
+ Livello 7 → 400 g<br>
+ Livello 8+ → 600 g
+
+</p>
+
+</div>
+
+<br>
+
+<button
+ class="btn goldbtn"
+ onclick="miglioraNegozio()">
+
+ ⭐ Migliora negozio —
+ <span id="costoMiglioramento">
+ €2.500,00
+ </span>
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SALVATAGGIO
+========================= -->
+
+<section
+ id="salvataggio"
+ class="page">
+
+<div class="panel">
+
+<h2>💾 Salvataggio manuale</h2>
+
+<p>
+ Il gioco salva <b>solo quando premi
+ "Salva partita"</b>.
+ </p>
+
+<p>
+ Se aggiorni la pagina senza salvare,
+ il precedente salvataggio rimane disponibile.
+ </p>
+
+<div class="actions">
+
+<button
+ class="btn goldbtn"
+ onclick="salvaPartita()">
+
+ 💾 Salva partita
+
+</button>
+
+<button
+ class="btn"
+ onclick="caricaPartita()">
+
+ ↩️ Carica salvataggio
+
+</button>
+
+<button
+ class="btn redbtn"
+ onclick="cancellaSalvataggio()">
+
+ 🗑️ Cancella salvataggio
+
+</button>
+
+</div>
+
+<p>
+ Ultimo salvataggio:
+ <b id="ultimoSalvataggio">
+ mai
+ </b>
+</p>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+</div>
+</div>
+
+
+<div
+ id="toast"
+ class="toast">
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURAZIONE
+===================================================== */
+
+const SALVATAGGIO =
+ "compro_oro_simulatore_v3";
+
+
+const carature = [
+
+ ["24K",0.999],
+
+ ["22K",0.916],
+
+ ["18K",0.750],
+
+ ["14K",0.585],
+
+ ["9K",0.375]
+
+];
+
+
+/*
+ Limiti raddoppiati
+ */
+
+const limiti = {
+
+ 1:20,
+ 2:40,
+ 3:80,
+ 4:140,
+ 5:200,
+ 6:300,
+ 7:400,
+ 8:600
+
+};
+
+
+/*
+ Clienti conosciuti
+ */
+
+const clienti = [
+
+ "Teo",
+ "Michelle",
+ "Iezzi",
+ "ema",
+ "fede",
+ "vogo",
+ "merk",
+ "matti",
+ "linsa",
+ "mariano",
+
+ "Luca",
+ "Andrea",
+ "Simo",
+ "Vale",
+ "Nico",
+ "Marco",
+ "Giulia",
+ "Sara",
+ "Ale",
+ "Davide"
+
+];
+
+
+const avatarColori = [
+
+ "#2563eb",
+ "#be185d",
+ "#7c3aed",
+ "#15803d",
+ "#b45309",
+ "#0891b2",
+ "#dc2626",
+ "#4f46e5",
+ "#9333ea",
+ "#0f766e"
+
+];
+
+
+let gioco = {
+
+ giorno:1,
+
+ cassa:10000,
+
+ xp:0,
+
+ reputazione:100,
+
+ livello:1,
+
+ transazioni:0,
+
+ pausaFino:0,
+
+ magazzino:{
+  "24K":0,
+  "22K":0,
+  "18K":0,
+  "14K":0,
+  "9K":0
+ },
+
+ registro:[],
+
+ cliente:null
+
+};
+
+
+/* =====================================================
+   UTILITÀ
+===================================================== */
+
+function limiteCliente(){
+
+ if(gioco.livello >= 8){
+  return 600;
+ }
+
+ return limiti[gioco.livello] || 20;
+}
+
+
+function euro(numero){
+
+ return new Intl.NumberFormat(
+  "it-IT",
+  {
+   style:"currency",
+   currency:"EUR",
+   maximumFractionDigits:2
+  }
+ ).format(numero);
+
+}
+
+
+function notifica(testo){
+
+ const elemento =
+  document.getElementById("toast");
+
+ elemento.textContent = testo;
+
+ elemento.classList.add("show");
+
+ clearTimeout(window.toastTimer);
+
+ window.toastTimer =
+  setTimeout(function(){
+
+   elemento.classList.remove("show");
+
+  },1800);
+
+}
+
+
+function aggiungiRegistro(testo){
+
+ gioco.registro.unshift(
+  "Giorno " +
+  gioco.giorno +
+  " — " +
+  testo
+ );
+
+ gioco.registro =
+  gioco.registro.slice(0,100);
+
+ renderRegistro();
+
+}
+
+
+function renderRegistro(){
+
+ const elemento =
+  document.getElementById(
+   "registroEventi"
+  );
+
+ if(!elemento)return;
+
+ elemento.innerHTML =
+  gioco.registro
+  .slice(0,50)
+  .map(function(x){
+
+   return `<div class="log">${x}</div>`;
+
+  })
+  .join("");
+
+}
+
+
+/* =====================================================
+   AVATAR
+===================================================== */
+
+function avatarSVG(nome){
+
+ let indice = 0;
+
+ for(let i=0;i<nome.length;i++){
+
+  indice +=
+   nome.charCodeAt(i);
+
+ }
+
+ const colore =
+  avatarColori[
+   indice % avatarColori.length
+  ];
+
+ const iniziali =
+  nome
+  .substring(0,2)
+  .toUpperCase();
+
+ const svg = `
+
+ <svg xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 200 200">
+
+ <rect
+  width="200"
+  height="200"
+  rx="100"
+  fill="${colore}"/>
+
+ <circle
+  cx="100"
+  cy="72"
+  r="38"
+  fill="#efc39f"/>
+
+ <path
+  d="M62 72c2-34 18-48 38-48s36 14 38 48c-14-14-25-19-38-19S76 58 62 72z"
+  fill="#33251f"/>
+
+ <circle cx="87" cy="73" r="4"/>
+ <circle cx="113" cy="73" r="4"/>
+
+ <path
+  d="M88 95q12 8 24 0"
+  fill="none"
+  stroke="#6b3f2c"
+  stroke-width="4"
+  stroke-linecap="round"/>
+
+ <path
+  d="M42 190c7-40 30-62 58-62s51 22 58 62"
+  fill="#172554"/>
+
+ <text
+  x="100"
+  y="175"
+  text-anchor="middle"
+  font-family="Arial"
+  font-size="22"
+  font-weight="bold"
+  fill="white">
+  ${iniziali}
+ </text>
+
+ </svg>
+ `;
+
+ return "data:image/svg+xml;charset=UTF-8,"+
+ encodeURIComponent(svg);
+
+}
+
+
+/* =====================================================
+   PREZZI ORO
+===================================================== */
+
+function prezziOggi(){
+
+ /*
+  Il prezzo cambia ogni giorno.
+  Rimane comunque in un intervallo
+  realistico per il gioco.
+ */
+
+ const variazione =
+  Math.sin(gioco.giorno * 1.73) * 5 +
+  ((gioco.giorno * 37) % 11) -
+  5;
+
+ const base =
+  82 + variazione;
+
+
+ return carature.map(function(c){
+
+  return {
+
+   caratura:c[0],
+
+   purezza:c[1],
+
+   prezzo:
+    Number(
+     (base * c[1]).toFixed(2)
+    )
+
+  };
+
+ });
+
+}
+
+
+/* =====================================================
+   NUOVO CLIENTE
+===================================================== */
+
+function nuovoCliente(){
+
+ /*
+  Una parte dei clienti è casuale.
+ */
+
+ let nome;
+
+ if(Math.random() < 0.65){
+
+  nome =
+   clienti[
+    Math.floor(
+     Math.random()*clienti.length
+    )
+   ];
+
+ }else{
+
+  const casuali = [
+   "Cliente casuale",
+   "Paolo",
+   "Stefano",
+   "Roberto",
+   "Fabio",
+   "Enrico",
+   "Claudio",
+   "Matteo",
+   "Francesca",
+   "Elisa",
+   "Laura",
+   "Davide"
+  ];
+
+  nome =
+   casuali[
+    Math.floor(
+     Math.random()*casuali.length
+    )
+   ];
+
+ }
+
+
+ const caratura =
+  carature[
+   Math.floor(
+    Math.random()*carature.length
+   )
+  ];
+
+
+ const massimo =
+  limiteCliente();
+
+
+ /*
+  Quantità generata sempre entro il limite
+  del livello.
+ */
+
+ let grammi =
+  0.5 +
+  Math.random() *
+  (massimo - 0.5);
+
+
+ /*
+  Una parte porta quantità piccole,
+  una parte quantità medio-alte.
+ */
+
+ if(Math.random() < 0.55){
+
+  grammi *= 0.55;
+
+ }
+
+
+ grammi =
+  Math.max(
+   0.5,
+   Math.min(
+    massimo,
+    grammi
+   )
+  );
+
+
+ grammi =
+  Number(
+   grammi.toFixed(2)
+  );
+
+
+ const prezzo =
+  prezziOggi()
+  .find(function(x){
+
+   return x.caratura === caratura[0];
+
+  }).prezzo;
+
+
+ const valore =
+  Number(
+   (prezzo*grammi).toFixed(2)
+  );
+
+
+ /*
+  25% di probabilità di avere
+  qualcosa di potenzialmente falso.
+ */
+
+ const falso =
+  Math.random() < 0.25;
+
+
+ /*
+  NUOVA LOGICA:
+  
+  70% clienti facili:
+  accettano circa 80-88%.
+
+  30% clienti difficili:
+  accettano circa 88-95%.
+
+  Quindi una proposta di 550€ su 600€
+  viene normalmente accettata.
+ */
+
+ const difficile =
+  Math.random() < 0.30;
+
+
+ let percentualeRichiesta;
+
+ if(difficile){
+
+  percentualeRichiesta =
+   0.88 +
+   Math.random()*0.07;
+
+ }else{
+
+  percentualeRichiesta =
+   0.80 +
+   Math.random()*0.08;
+
+ }
+
+
+ let richiesta =
+  valore * percentualeRichiesta;
+
+
+ richiesta =
+  Number(
+   richiesta.toFixed(2)
+  );
+
+
+ gioco.cliente = {
+
+  nome:nome,
+
+  grammi:grammi,
+
+  caratura:caratura,
+
+  valore:valore,
+
+  richiesta:richiesta,
+
+  falso:falso,
+
+  difficile:difficile,
+
+  controllato:false,
+
+  risultato:""
+
+ };
+
+
+ mostraCliente();
+
+}
+
+
+/* =====================================================
+   MOSTRA CLIENTE
+===================================================== */
+
+function mostraCliente(){
+
+ const c =
+  gioco.cliente;
+
+ if(!c)return;
+
+
+ const bloccato =
+  gioco.pausaFino > Date.now();
+
+
+ const percentuale =
+  c.valore > 0
+  ? ((c.richiesta/c.valore)*100)
+  : 0;
+
+
+ document.getElementById(
+  "cliente"
+ ).innerHTML = `
+
+ <div class="customer">
+
+  <img
+   class="avatar"
+   src="${avatarSVG(c.nome)}">
+
+  <div>
+
+   <div class="customer-name">
+    ${c.nome}
+   </div>
+
+   <div class="sub">
+
+    Porta
+    <b>${c.grammi.toFixed(2)} g</b>
+    di
+    <b>${c.caratura[0]}</b>
+
+   </div>
+
+   <div class="sub">
+
+    📊 Limite del livello:
+    <b>${limiteCliente()} g</b>
+
+   </div>
+
+   <div class="sub">
+
+    ${c.difficile
+     ? "😤 Cliente più difficile del normale"
+     : "🙂 Cliente abbastanza trattabile"}
+
+   </div>
+
+   <div class="sub">
+
+    ${c.falso
+     ? "⚠️ Ci sono possibili anomalie"
+     : "🔎 Oggetto apparentemente normale"}
+
+   </div>
+
+  </div>
+
+  <div
+   id="umore"
+   class="mood">
+   😐
+  </div>
+
+ </div>
+
+
+ <br>
+
+
+ <div class="grid g3">
+
+  <div class="card">
+
+   <div class="sub">
+    Valore teorico
+   </div>
+
+   <b class="gold">
+    ${euro(c.valore)}
+   </b>
+
+  </div>
+
+
+  <div class="card">
+
+   <div class="sub">
+    Aspettativa cliente
+   </div>
+
+   <b>
+    ${euro(c.richiesta)}
+   </b>
+
+   <div class="sub">
+    circa ${percentuale.toFixed(0)}% del valore
+   </div>
+
+  </div>
+
+
+  <div class="card">
+
+   <div class="sub">
+    Autenticazione
+   </div>
+
+   <b>
+    ${c.risultato || "Non eseguita"}
+   </b>
+
+  </div>
+
+ </div>
+
+
+ <div class="offer-box">
+
+  <b>💶 Fai la tua offerta</b>
+
+  <div class="actions">
+
+   <button
+    class="btn"
+    ${bloccato ? "disabled" : ""}
+    onclick="faiOfferta(0.70)">
+    Offri 70%
+   </button>
+
+   <button
+    class="btn"
+    ${bloccato ? "disabled" : ""}
+    onclick="faiOfferta(0.80)">
+    Offri 80%
+   </button>
+
+   <button
+    class="btn"
+    ${bloccato ? "disabled" : ""}
+    onclick="faiOfferta(0.85)">
+    Offri 85%
+   </button>
+
+   <button
+    class="btn"
+    ${bloccato ? "disabled" : ""}
+    onclick="faiOfferta(0.90)">
+    Offri 90%
+   </button>
+
+   <button
+    class="btn goldbtn"
+    ${bloccato ? "disabled" : ""}
+    onclick="offertaLibera()">
+    💶 Offerta libera
+   </button>
+
+  </div>
+
+ </div>
+
+
+ <div class="actions">
+
+  <button
+   class="btn"
+   ${bloccato ? "disabled" : ""}
+   onclick="autentica()">
+
+   🔎 Autentica a pagamento
+
+  </button>
+
+
+  <button
+   class="btn"
+   ${bloccato ? "disabled" : ""}
+   onclick="rifiutaCliente()">
+
+   ✋ Rifiuta
+
+  </button>
+
+
+  <button
+   class="btn redbtn"
+   ${bloccato ? "disabled" : ""}
+   onclick="denunciaCliente()">
+
+   🚔 Denuncia
+
+  </button>
+
+ </div>
+
+ `;
+
+}
+
+
+/* =====================================================
+   OFFERTE
+===================================================== */
+
+function faiOfferta(percentuale){
+
+ if(gioco.pausaFino > Date.now()){
+
+  notifica(
+   "🔒 Gli acquisti sono temporaneamente chiusi."
+  );
+
+  return;
+ }
+
+
+ if(!gioco.cliente){
+
+  return;
+ }
+
+
+ const offerta =
+  Number(
+   (gioco.cliente.valore * percentuale)
+   .toFixed(2)
+  );
+
+
+ compraOro(offerta);
+
+}
+
+
+function offertaLibera(){
+
+ if(gioco.pausaFino > Date.now()){
+
+  notifica(
+   "🔒 Gli acquisti sono temporaneamente chiusi."
+  );
+
+  return;
+ }
+
+
+ let valore =
+  prompt(
+   "Quanto vuoi offrire al cliente?"
+  );
+
+
+ if(valore === null){
+
+  return;
+
+ }
+
+
+ valore =
+  Number(
+   String(valore)
+   .replace(",",".")
+  );
+
+
+ if(
+  !Number.isFinite(valore) ||
+  valore <= 0
+ ){
+
+  notifica(
+   "❌ Importo non valido."
+  );
+
+  return;
+
+ }
+
+
+ compraOro(valore);
+
+}
+
+
+/* =====================================================
+   COMPRA ORO
+===================================================== */
+
+function compraOro(offerta){
+
+ const c =
+  gioco.cliente;
+
+
+ if(!c){
+
+  return;
+
+ }
+
+
+ if(gioco.pausaFino > Date.now()){
+
+  notifica(
+   "🔒 Gli acquisti sono temporaneamente chiusi."
+  );
+
+  return;
+
+ }
+
+
+ /*
+  CONTROLLO LIMITE
+ */
+
+ if(c.grammi > limiteCliente()){
+
+  notifica(
+   "⚠️ Questo cliente supera il limite del tuo livello."
+  );
+
+  aggiungiRegistro(
+   "Cliente " +
+   c.nome +
+   " ha portato " +
+   c.grammi.toFixed(2) +
+   " g, oltre il limite."
+  );
+
+  return;
+
+ }
+
+
+ /*
+  AUTENTICAZIONE:
+  se non è stata fatta, non si compra
+  un oggetto che richiede controllo.
+ */
+
+ if(!c.controllato){
+
+  notifica(
+   "🔎 Devi prima autenticare l'oggetto."
+  );
+
+  const umore =
+   document.getElementById("umore");
+
+  if(umore){
+
+   umore.textContent="🤨";
+
+   umore.classList.remove("shake");
+
+   void umore.offsetWidth;
+
+   umore.classList.add("shake");
+
+  }
+
+  return;
+
+ }
+
+
+ /*
+  SE È STATO CONFERMATO FALSO
+ */
+
+ if(c.risultato === "FALSO"){
+
+  notifica(
+   "❌ È un falso. Non puoi acquistarlo."
+  );
+
+  return;
+
+ }
+
+
+ /*
+  CASSA
+ */
+
+ if(gioco.cassa < offerta){
+
+  notifica(
+   "💰 Cassa insufficiente."
+  );
+
+  return;
+
+ }
+
+
+ /*
+  ACCETTAZIONE:
+  
+  il cliente accetta se:
+  - offerta >= richiesta
+  - oppure l'offerta è entro un piccolo
+    margine sotto la richiesta.
+  
+  Questo evita che il gioco diventi lento.
+ */
+
+ const margine =
+  c.valore * 0.025;
+
+
+ const accetta =
+  offerta >=
+  (c.richiesta - margine);
+
+
+ if(!accetta){
+
+  const umore =
+   document.getElementById("umore");
+
+  if(umore){
+
+   umore.textContent =
+    c.difficile
+    ? "😠"
+    : "😕";
+
+   umore.classList.remove("shake");
+
+   void umore.offsetWidth;
+
+   umore.classList.add("shake");
+
+  }
+
+  notifica(
+   "😕 Il cliente vuole qualcosa in più."
+  );
+
+  aggiungiRegistro(
+   c.nome +
+   " ha rifiutato " +
+   euro(offerta)
+  );
+
+  return;
+
+ }
+
+
+ /*
+  ACQUISTO RIUSCITO
+ */
+
+ gioco.cassa -= offerta;
+
+
+ /*
+  FIX CARATURE:
+  controlliamo sempre che la chiave esista.
+ */
+
+ if(
+  typeof gioco.magazzino[c.caratura[0]]
+  !== "number"
+ ){
+
+  gioco.magazzino[c.caratura[0]] = 0;
+
+ }
+
+
+ gioco.magazzino[c.caratura[0]] +=
+  c.grammi;
+
+
+ gioco.magazzino[c.caratura[0]] =
+  Number(
+   gioco.magazzino[c.caratura[0]]
+   .toFixed(4)
+  );
+
+
+ gioco.transazioni++;
+
+
+ gioco.xp += 10;
+
+
+ gioco.reputazione =
+  Math.min(
+   100,
+   gioco.reputazione + 1
+  );
+
+
+ const umore =
+  document.getElementById("umore");
+
+
+ if(umore){
+
+  umore.textContent="😄";
+
+  umore.classList.remove("pop");
+
+  void umore.offsetWidth;
+
+  umore.classList.add("pop");
+
+ }
+
+
+ const clienteElemento =
+  document.getElementById("cliente");
+
+
+ if(clienteElemento){
+
+  clienteElemento.classList.remove("pop");
+
+  void clienteElemento.offsetWidth;
+
+  clienteElemento.classList.add("pop");
+
+ }
+
+
+ aggiungiRegistro(
+
+  "Acquistati " +
+
+  c.grammi.toFixed(2) +
+
+  " g di " +
+
+  c.caratura[0] +
+
+  " da " +
+
+  c.nome +
+
+  " per " +
+
+  euro(offerta) +
+
+  ". +10 XP"
+
+ );
+
+
+ notifica(
+  "✅ Acquisto completato!"
+ );
+
+
+ aggiornaInterfaccia();
+
+
+ /*
+  Controllo dopo una breve animazione.
+ */
+
+ setTimeout(function(){
+
+  if(gioco.transazioni >= 8){
+
+   gioco.transazioni = 0;
+
+   gioco.pausaFino =
+    Date.now() + 120000;
+
+
+   aggiungiRegistro(
+    "Il negozio ha raggiunto 8 acquisti ed entra automaticamente in pausa per 2 minuti."
+   );
+
+
+   notifica(
+    "🔒 Negozio in pausa per 2 minuti."
+   );
+
+  }
+
+
+  nuovoCliente();
+
+  aggiornaInterfaccia();
+
+ },650);
+
+}
+
+
+/* =====================================================
+   AUTENTICAZIONE
+===================================================== */
+
+function costoAutenticazione(){
+
+ if(!gioco.cliente){
+
+  return 0;
+
+ }
+
+
+ /*
+  Prezzo non esagerato.
+ */
+
+ return Math.max(
+  15,
+  Number(
+   (gioco.cliente.grammi * 2.5)
+   .toFixed(2)
+  )
+ );
+
+
+}
+
+
+function autentica(){
+
+ if(gioco.pausaFino > Date.now()){
+
+  notifica(
+   "🔒 Le autenticazioni sono chiuse durante la pausa."
+  );
+
+  return;
+
+ }
+
+
+ const c =
+  gioco.cliente;
+
+
+ if(!c){
+
+  return;
+
+ }
+
+
+ if(c.controllato){
+
+  notifica(
+   "🔎 Questo oggetto è già stato controllato."
+  );
+
+  return;
+
+ }
+
+
+ const costo =
+  costoAutenticazione();
+
+
+ if(gioco.cassa < costo){
+
+  notifica(
+   "💰 Non hai abbastanza soldi per l'autenticazione."
+  );
+
+  return;
+
+ }
+
+
+ gioco.cassa -= costo;
+
+
+ c.controllato = true;
+
+
+ /*
+  IMPORTANTE:
+  essere sospetto NON significa
+  automaticamente essere falso.
+  
+  25% degli oggetti è sospetto.
+  Anche un sospetto può risultare autentico.
+ */
+
+ if(c.falso){
+
+  c.risultato =
+   Math.random() < 0.70
+   ? "FALSO"
+   : "AUTENTICO";
+
+ }else{
+
+  c.risultato =
+   Math.random() < 0.06
+   ? "FALSO"
+   : "AUTENTICO";
+
+ }
+
+
+ if(c.risultato === "FALSO"){
+
+  gioco.xp += 5;
+
+
+  notifica(
+   "⚠️ Autenticazione: FALSO. +5 XP"
+  );
+
+
+  aggiungiRegistro(
+
+   "Autenticazione di " +
+
+   c.nome +
+
+   ": FALSO. " +
+
+   "Costo " +
+
+   euro(costo) +
+
+   ". +5 XP"
+
+  );
+
+
+ }else{
+
+  gioco.xp += 3;
+
+
+  notifica(
+   "✅ Autenticazione: AUTENTICO. +3 XP"
+  );
+
+
+  aggiungiRegistro(
+
+   "Autenticazione di " +
+
+   c.nome +
+
+   ": AUTENTICO. " +
+
+   "Costo " +
+
+   euro(costo) +
+
+   ". +3 XP"
+
+  );
+
+ }
+
+
+ mostraCliente();
+
+ aggiornaInterfaccia();
+
+}
+
+
+/* =====================================================
+   RIFIUTA
+===================================================== */
+
+function rifiutaCliente(){
+
+ if(!gioco.cliente){
+
+  return;
+
+ }
+
+
+ aggiungiRegistro(
+
+  "Stefano ha rifiutato il cliente " +
+
+  gioco.cliente.nome
+
+ );
+
+
+ gioco.xp += 1;
+
+
+ notifica(
+  "✋ Cliente rifiutato."
+ );
+
+
+ nuovoCliente();
+
+ aggiornaInterfaccia();
+
+}
+
+
+/* =====================================================
+   DENUNCIA
+===================================================== */
+
+function denunciaCliente(){
+
+ if(gioco.pausaFino > Date.now()){
+
+  notifica(
+   "🔒 Le denunce sono bloccate durante la pausa."
+  );
+
+  return;
+
+ }
+
+
+ const c =
+  gioco.cliente;
+
+
+ if(!c){
+
+  return;
+
+ }
+
+
+ /*
+  Se non autenticato:
+  non puoi sapere con certezza
+  che sia un falso.
+ */
+
+ if(!c.controllato){
+
+  notifica(
+   "🔎 Prima devi autenticare l'oggetto."
+  );
+
+  return;
+
+ }
+
+
+ /*
+  DENUNCIA DI UN FALSO
+ */
+
+ if(c.risultato === "FALSO"){
+
+  const ricompensa =
+   150 +
+   gioco.livello * 50;
+
+
+  gioco.cassa += ricompensa;
+
+
+  gioco.xp += 25;
+
+
+  gioco.reputazione =
+   Math.min(
+    100,
+    gioco.reputazione + 4
+   );
+
+
+  notifica(
+   "🚔 Denuncia confermata! +25 XP"
+  );
+
+
+  aggiungiRegistro(
+
+   "Denuncia confermata contro " +
+
+   c.nome +
+
+   ". Ricompensa " +
+
+   euro(ricompensa) +
+
+   ". +25 XP."
+
+  );
+
+
+  nuovoCliente();
+
+  aggiornaInterfaccia();
+
+  return;
+
+ }
+
+
+ /*
+  DENUNCIA INGIUSTA
+ */
+
+ gioco.reputazione =
+  Math.max(
+   0,
+   gioco.reputazione - 6
+  );
+
+
+ gioco.xp =
+  Math.max(
+   0,
+   gioco.xp - 5
+  );
+
+
+ notifica(
+  "❌ Denuncia infondata. -6 reputazione, -5 XP."
+ );
+
+
+ aggiungiRegistro(
+
+  "Denuncia infondata contro " +
+
+  c.nome +
+
+  ". -6 reputazione, -5 XP."
+
+ );
+
+
+ nuovoCliente();
+
+ aggiornaInterfaccia();
+
+}
+
+
+/* =====================================================
+   VENDI IL PROPRIO ORO
+===================================================== */
+
+function vendiIlMioOro(){
+
+ const select =
+  document.getElementById(
+   "caraturaVendita"
+  );
+
+
+ const input =
+  document.getElementById(
+   "grammiVendita"
+  );
+
+
+ if(!select || !input){
+
+  return;
+
+ }
+
+
+ /*
+  FIX CARATURE:
+  prendiamo SEMPRE il valore della select.
+ */
+
+ const caratura =
+  String(select.value);
+
+
+ /*
+  Verifica che la caratura
+  sia realmente presente.
+ */
+
+ const esiste =
+  carature.some(function(c){
+
+   return c[0] === caratura;
+
+  });
+
+
+ if(!esiste){
+
+  notifica(
+   "❌ Caratura non valida."
+  );
+
+  return;
+
+ }
+
+
+ let grammi =
+  Number(
+   String(input.value)
+   .replace(",",".")
+  );
+
+
+ if(
+  !Number.isFinite(grammi) ||
+  grammi <= 0
+ ){
+
+  notifica(
+   "❌ Inserisci una quantità valida."
+  );
+
+  return;
+
+ }
+
+
+ const disponibile =
+  Number(
+   gioco.magazzino[caratura] || 0
+  );
+
+
+ if(grammi > disponibile){
+
+  notifica(
+   "❌ Non hai abbastanza " +
+   caratura +
+   " nel negozio."
+  );
+
+  return;
+
+ }
+
+
+ const prezzoObj =
+  prezziOggi().find(function(x){
+
+   return x.caratura === caratura;
+
+  });
+
+
+ if(!prezzoObj){
+
+  notifica(
+   "❌ Prezzo caratura non trovato."
+  );
+
+  return;
+
+ }
+
+
+ const ricavo =
+  Number(
+   (prezzoObj.prezzo * grammi)
+   .toFixed(2)
+  );
+
+
+ /*
+  Aggiornamento sicuro del magazzino.
+ */
+
+ gioco.magazzino[caratura] =
+  Number(
+   (disponibile - grammi)
+   .toFixed(4)
+  );
+
+
+ gioco.cassa += ricavo;
+
+
+ gioco.xp += 4;
+
+
+ aggiungiRegistro(
+
+  "Stefano ha venduto al negozio " +
+
+  grammi.toFixed(2) +
+
+  " g di " +
+
+  caratura +
+
+  " per " +
+
+  euro(ricavo) +
+
+  ". +4 XP"
+
+ );
+
+
+ input.value = "";
+
+
+ notifica(
+  "💰 Vendita completata: +" +
+  euro(ricavo)
+ );
+
+
+ aggiornaInterfaccia();
+
+}
+
+
+/* =====================================================
+   MIGLIORA NEGOZIO
+===================================================== */
+
+function miglioraNegozio(){
+
+ const costo =
+  2500 * gioco.livello;
+
+
+ if(gioco.cassa < costo){
+
+  notifica(
+   "💰 Cassa insufficiente."
+  );
+
+  return;
+
+ }
+
+
+ gioco.cassa -= costo;
+
+
+ gioco.livello++;
+
+
+ gioco.xp += 30;
+
+
+ aggiungiRegistro(
+
+  "Negozio migliorato al livello " +
+
+  gioco.livello +
+
+  ". +30 XP"
+
+ );
+
+
+ notifica(
+  "⭐ Negozio migliorato!"
+ );
+
+
+ nuovoCliente();
+
+ aggiornaInterfaccia();
+
+}
+
+
+/* =====================================================
+   PAUSA
+===================================================== */
+
+function controllaPausa(){
+
+ const tempo =
+  Math.max(
+   0,
+   gioco.pausaFino - Date.now()
+  );
+
+
+ const inPausa =
+  tempo > 0;
+
+
+ const secondi =
+  Math.ceil(tempo/1000);
+
+
+ const timer =
+  document.getElementById("timer");
+
+
+ if(timer){
+
+  timer.textContent =
+
+   String(
+    Math.floor(secondi/60)
+   ).padStart(2,"0") +
+
+   ":" +
+
+   String(
+    secondi%60
+   ).padStart(2,"0");
+
+ }
+
+
+ /*
+  Se la pausa è appena terminata
+ */
+
+ if(
+  gioco.pausaFino !== 0 &&
+  tempo === 0
+ ){
+
+  gioco.pausaFino = 0;
+
+  gioco.giorno++;
+
+
+  aggiungiRegistro(
+
+   "La pausa è terminata. " +
+
+   "È iniziato il giorno " +
+
+   gioco.giorno +
+
+   " e le quotazioni dell'oro sono cambiate."
+
+  );
+
+
+  notifica(
+   "🌅 Nuovo giorno! Quotazioni aggiornate."
+  );
+
+
+  nuovoCliente();
+
+ }
+
+
+ aggiornaInterfaccia();
+
+}
+
+
+/* =====================================================
+   INTERFACCIA
+===================================================== */
+
+function aggiornaInterfaccia(){
+
+ const ids = {
+
+  giorno:gioco.giorno,
+
+  cassa:euro(gioco.cassa),
+
+  xp:gioco.xp,
+
+  reputazione:gioco.reputazione,
+
+  livello:gioco.livello,
+
+  livello2:gioco.livello,
+
+  limite:limiteCliente()+" g",
+
+  limite2:limiteCliente(),
+
+  transazioni:
+   gioco.transazioni+"/8"
+
+ };
+
+
+ Object.keys(ids).forEach(function(id){
+
+  const el =
+   document.getElementById(id);
+
+  if(el){
+
+   el.textContent =
+    ids[id];
+
+  }
+
+ });
+
+
+ const barra =
+  document.getElementById("barra");
+
+
+ if(barra){
+
+  barra.style.width =
+   Math.min(
+    100,
+    gioco.transazioni/8*100
+   )+"%";
+
+ }
+
+
+ const inPausa =
+  gioco.pausaFino > Date.now();
+
+
+ const stato =
+  document.getElementById("stato");
+
+
+ if(stato){
+
+  stato.textContent =
+   inPausa
+   ? "PAUSA ACQUISTI"
+   : "APERTO";
+
+
+  stato.className =
+   "big " +
+   (inPausa
+    ? "redtext"
+    : "green");
+
+ }
+
+
+ const pausa =
+  document.getElementById("pausa");
+
+
+ if(pausa){
+
+  pausa.classList.toggle(
+   "show",
+   inPausa
+  );
+
+ }
+
+
+ /*
+  MAGAZZINO
+ */
+
+ let totale = 0;
+
+ let testo = "";
+
+
+ carature.forEach(function(c){
+
+  const g =
+   Number(
+    gioco.magazzino[c[0]] || 0
+   );
+
+
+  totale += g;
+
+
+  testo += `
+
+   <span style="margin-right:12px">
+
+    ${c[0]}:
+    <b>${g.toFixed(2)} g</b>
+
+   </span>
+
+  `;
+
+ });
+
+
+ const totaleOro =
+  document.getElementById(
+   "totaleOro"
+  );
+
+
+ if(totaleOro){
+
+  totaleOro.textContent =
+   totale.toFixed(2)+" g";
+
+ }
+
+
+ const magazzino =
+  document.getElementById(
+   "magazzino"
+  );
+
+
+ if(magazzino){
+
+  magazzino.innerHTML =
+   testo;
+
+ }
+
+
+ /*
+  PREZZI
+ */
+
+ const tabella =
+  document.getElementById(
+   "tabellaPrezzi"
+  );
+
+
+ if(tabella){
+
+  tabella.innerHTML =
+
+   prezziOggi()
+   .map(function(x){
+
+    return `
+
+    <tr>
+
+     <td>
+      <b>${x.caratura}</b>
+     </td>
+
+     <td>
+      ${(x.purezza*100).toFixed(1)}%
+     </td>
+
+     <td class="gold">
+      <b>${euro(x.prezzo)}</b>
+     </td>
+
+    </tr>
+
+    `;
+
+   })
+   .join("");
+
+ }
+
+
+ /*
+  SELECT CARATURE
+ */
+
+ const select =
+  document.getElementById(
+   "caraturaVendita"
+  );
+
+
+ if(select){
+
+  const valorePrecedente =
+   select.value;
+
+
+  select.innerHTML =
+   carature
+   .map(function(c){
+
+    return `
+     <option value="${c[0]}">
+      ${c[0]} - ${(c[1]*100).toFixed(1)}%
+     </option>
+    `;
+
+   })
+   .join("");
+
+
+  /*
+   Mantiene la caratura scelta
+   quando possibile.
+  */
+
+  if(
+   carature.some(function(c){
+    return c[0] === valorePrecedente;
+   })
+  ){
+
+   select.value =
+    valorePrecedente;
+
+  }
+
+ }
+
+
+ /*
+  COSTO MIGLIORAMENTO
+ */
+
+ const costo =
+  document.getElementById(
+   "costoMiglioramento"
+  );
+
+
+ if(costo){
+
+  costo.textContent =
+   euro(2500*gioco.livello);
+
+ }
+
+
+ renderRegistro();
+
+}
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+function apriPagina(nome,pulsante){
+
+ document
+  .querySelectorAll(".page")
+  .forEach(function(x){
+
+   x.classList.remove("active");
+
+  });
+
+
+ const pagina =
+  document.getElementById(nome);
+
+
+ if(pagina){
+
+  pagina.classList.add("active");
+
+ }
+
+
+ document
+  .querySelectorAll("nav button")
+  .forEach(function(x){
+
+   x.classList.remove("active");
+
+  });
+
+
+ if(pulsante){
+
+  pulsante.classList.add("active");
+
+ }
+
+}
+
+
+/* =====================================================
+   LISTA CLIENTI
+===================================================== */
+
+function creaListaClienti(){
+
+ const elemento =
+  document.getElementById(
+   "listaClienti"
+  );
+
+
+ if(!elemento)return;
+
+
+ elemento.innerHTML =
+
+  clienti
+  .map(function(nome){
+
+   return `
+
+   <div class="client-row">
+
+    <img
+     src="${avatarSVG(nome)}">
+
+    <div>
+
+     <b>${nome}</b>
+
+     <div class="sub">
+      Cliente del negozio
+     </div>
+
+    </div>
+
+   </div>
+
+   `;
+
+  })
+  .join("");
+
+
+ elemento.innerHTML += `
+
+ <div class="client-row">
+
+  <img
+   src="${avatarSVG("Cliente")}">
+
+  <div>
+
+   <b>Clienti casuali</b>
+
+   <div class="sub">
+    Nuove persone possono arrivare
+    durante la partita.
+   </div>
+
+  </div>
+
+ </div>
+
+ `;
+
+}
+
+
+/* =====================================================
+   SALVATAGGIO
+===================================================== */
+
+function salvaPartita(){
+
+ try{
+
+  localStorage.setItem(
+   SALVATAGGIO,
+   JSON.stringify(gioco)
+  );
+
+
+  const data =
+   new Date()
+   .toLocaleString("it-IT");
+
+
+  localStorage.setItem(
+   SALVATAGGIO+"_data",
+   data
+  );
+
+
+  document.getElementById(
+   "ultimoSalvataggio"
+  ).textContent =
+   data;
+
+
+  notifica(
+   "💾 Partita salvata!"
+  );
+
+
+ }catch(e){
+
+  notifica(
+   "❌ Impossibile salvare la partita."
+  );
+
+ }
+
+}
+
+
+function caricaPartita(){
+
+ const dati =
+  localStorage.getItem(
+   SALVATAGGIO
+  );
+
+
+ if(!dati){
+
+  notifica(
+   "❌ Non c'è nessun salvataggio."
+  );
+
+  return false;
+
+ }
+
+
+ try{
+
+  const caricata =
+   JSON.parse(dati);
+
+
+  /*
+   Compatibilità e sicurezza.
+  */
+
+  gioco = {
+
+   giorno:
+    Number(caricata.giorno) || 1,
+
+   cassa:
+    Number(caricata.cassa) || 0,
+
+   xp:
+    Number(caricata.xp) || 0,
+
+   reputazione:
+    Number(caricata.reputazione),
+
+   livello:
+    Number(caricata.livello) || 1,
+
+   transazioni:
+    Number(caricata.transazioni) || 0,
+
+   pausaFino:
+    Number(caricata.pausaFino) || 0,
+
+   magazzino:{
+    "24K":
+     Number(
+      caricata.magazzino?.["24K"]
+     ) || 0,
+
+    "22K":
+     Number(
+      caricata.magazzino?.["22K"]
+     ) || 0,
+
+    "18K":
+     Number(
+      caricata.magazzino?.["18K"]
+     ) || 0,
+
+    "14K":
+     Number(
+      caricata.magazzino?.["14K"]
+     ) || 0,
+
+    "9K":
+     Number(
+      caricata.magazzino?.["9K"]
+     ) || 0
+   },
+
+   registro:
+    Array.isArray(caricata.registro)
+    ? caricata.registro
+    : [],
+
+   cliente:null
+
+  };
+
+
+  if(
+   !Number.isFinite(gioco.reputazione)
+  ){
+
+   gioco.reputazione = 100;
+
+  }
+
+
+  const data =
+   localStorage.getItem(
+    SALVATAGGIO+"_data"
+   );
+
+
+  document.getElementById(
+   "ultimoSalvataggio"
+  ).textContent =
+   data || "salvataggio precedente";
+
+
+  aggiungiRegistro(
+   "Salvataggio caricato."
+  );
+
+
+  nuovoCliente();
+
+  aggiornaInterfaccia();
+
+
+  notifica(
+   "↩️ Salvataggio caricato!"
+  );
+
+
+  return true;
+
+
+ }catch(e){
+
+  notifica(
+   "❌ Salvataggio danneggiato."
+  );
+
+  return false;
+
+ }
+
+}
+
+
+function cancellaSalvataggio(){
+
+ if(
+  !confirm(
+   "Vuoi cancellare definitivamente il salvataggio?"
+  )
+ ){
+
+  return;
+
+ }
+
+
+ localStorage.removeItem(
+  SALVATAGGIO
+ );
+
+
+ localStorage.removeItem(
+  SALVATAGGIO+"_data"
+ );
+
+
+ document.getElementById(
+  "ultimoSalvataggio"
+ ).textContent =
+  "mai";
+
+
+ notifica(
+  "🗑️ Salvataggio cancellato."
+ );
+
+}
+
+
+/* =====================================================
+   INIZIA PARTITA
+===================================================== */
+
+function iniziaPartita(){
+
+ document
+  .getElementById("start")
+  .classList.add("hidden");
+
+
+ document
+  .getElementById("game")
+  .classList.remove("hidden");
+
+
+ const vecchio =
+  localStorage.getItem(
+   SALVATAGGIO
+  );
+
+
+ if(
+  vecchio &&
+  confirm(
+   "È presente un salvataggio. Vuoi caricarlo?"
+  )
+ ){
+
+  caricaPartita();
+
+ }else{
+
+  aggiungiRegistro(
+   "Stefano ha aperto il negozio."
+  );
+
+
+  nuovoCliente();
+
+  aggiornaInterfaccia();
+
+ }
+
+}
+
+
+/* =====================================================
+   AVVIO
+===================================================== */
+
+creaListaClienti();
+
+aggiornaInterfaccia();
+
+setInterval(
+ controllaPausa,
+ 500
+);
+
+</script>
+
+</body>
+</html>
